@@ -12,21 +12,21 @@ $conn = $objDb->connect();
 $method = $_SERVER['REQUEST_METHOD'];
 switch($method) {
     case "GET":
-        $sql = "SELECT * FROM courses";
+        $sql = "SELECT * FROM course";
         $path = explode('/', $_SERVER['REQUEST_URI']);
         if(isset($path[3]) && is_numeric($path[3])) {
             $sql .= " WHERE course_id  = :course_id ";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':course_id ', $path[3]);
             $stmt->execute();
-            $users = $stmt->fetch(PDO::FETCH_ASSOC);
+            $course = $stmt->fetch(PDO::FETCH_ASSOC);
         } else {
             $stmt = $conn->prepare($sql);
             $stmt->execute();
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $course = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        echo json_encode($users);
+        echo json_encode($course);
         break;
 
 
